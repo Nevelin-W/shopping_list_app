@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:shopping_list_app/data/dummy_items.dart';
 import 'package:shopping_list_app/widgets/grocery_item.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({
+class GroceryListScreen extends StatelessWidget {
+  const GroceryListScreen({
     super.key,
   });
 

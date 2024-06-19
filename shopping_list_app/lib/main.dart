@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_list_app/screens/home.dart';
+import 'package:shopping_list_app/screens/grocery_list.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 final theme = ThemeData.dark().copyWith(
@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: HomeScreen(),
+      home: const GroceryListScreen(),
     );
   }
 }
