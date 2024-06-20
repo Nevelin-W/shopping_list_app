@@ -16,11 +16,26 @@ class NewItemScreen extends StatefulWidget {
 
 class _NewItemScreenState extends State<NewItemScreen> {
   final _formKey = GlobalKey<FormState>();
-  // ignore: unused_field
+  final _nameController = TextEditingController();
   var _enteredName = '';
-  // ignore: unused_field
   var _enteredQuantity = 1;
   var _selectedCategory = categories[Categories.vegetables]!;
+
+  @override
+  void initState() {
+    super.initState();
+    _nameController.addListener(_updateAppBarTitle);
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    super.dispose();
+  }
+
+  void _updateAppBarTitle() {
+    setState(() {});
+  }
 
   void _saveItem() {
     if (_formKey.currentState!.validate()) {
@@ -39,7 +54,11 @@ class _NewItemScreenState extends State<NewItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Add a new item'),
+          title: Text(
+              'Add ${_nameController.text.isEmpty ? '' : _nameController.text}',
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.secondary,
+                  )),
         ),
         body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -48,6 +67,7 @@ class _NewItemScreenState extends State<NewItemScreen> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: _nameController,
                     maxLength: 50,
                     decoration: const InputDecoration(
                       label: Text('Name'),

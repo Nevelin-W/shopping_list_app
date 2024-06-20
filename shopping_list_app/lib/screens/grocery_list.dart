@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shopping_list_app/data/dummy_items.dart';
 import 'package:shopping_list_app/widgets/grocery_item.dart';
 import 'package:shopping_list_app/screens/new_item.dart';
 import 'package:shopping_list_app/models/grocery_item.dart';
@@ -39,6 +38,7 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
         title: Text(
           'Your Groceries',
           style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.secondary,
                 fontWeight: FontWeight.bold,
               ),
         ),
@@ -54,42 +54,39 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
       body: _groceryItems.isEmpty
           ? Center(
               child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                IconButton(
-                  icon: const Icon(
-                    Icons.add_shopping_cart_outlined,
-                    size: 100,
-                    shadows: [
-                      Shadow(
-                        blurRadius: 10.0,
-                        color: Colors.black,
-                        offset: Offset(5.0, 5.0),
-                      ),
-                    ],
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  IconButton(
+                    icon: const Icon(
+                      Icons.add_shopping_cart_outlined,
+                      size: 100,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black,
+                          offset: Offset(5.0, 5.0),
+                        ),
+                      ],
+                    ),
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                    onPressed: _addItem,
                   ),
-                  color: Theme.of(context).colorScheme.primary,
-                  onPressed: _addItem,
-                ),
-                Text(
-                  'No groceries yet!',
-                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(),
-                ),
-                const SizedBox(height: 150),
-              ],
-            ))
+                  Text(
+                    'No groceries yet!',
+                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.secondary,
+                        ),
+                  ),
+                  const SizedBox(height: 150),
+                ],
+              ),
+            )
           : ListView.builder(
               itemCount: _groceryItems.length,
               itemBuilder: (ctx, index) =>
                   GroceryItemWidget(item: _groceryItems[index]),
             ),
-
-      /*  body: ListView.builder(
-        itemCount: _groceryItems.length,
-        itemBuilder: (ctx, index) =>
-            GroceryItemWidget(item: _groceryItems[index]),
-      ), */
     );
   }
 }
