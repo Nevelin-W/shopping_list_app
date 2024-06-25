@@ -68,6 +68,12 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
     }
   }
 
+  void _onCheckedChanged(GroceryItem item, bool isChecked) {
+    setState(() {
+      item.isChecked = isChecked;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget content = _groceryItems.isEmpty
@@ -104,7 +110,10 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
         : ListView.builder(
             itemCount: _groceryItems.length,
             itemBuilder: (ctx, index) => GroceryItemWidget(
-                item: _groceryItems[index], onDismissed: _removeItem),
+              item: _groceryItems[index],
+              onDismissed: _removeItem,
+              onCheckedChanged: _onCheckedChanged,
+            ),
           );
 
     return Scaffold(
