@@ -70,60 +70,61 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Your Groceries',
-          style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                color: Theme.of(context).colorScheme.secondary,
-                fontWeight: FontWeight.bold,
-              ),
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            color: Theme.of(context).colorScheme.onPrimaryContainer,
-            iconSize: 30,
-            onPressed: _addItem,
-          ),
-        ],
-      ),
-      body: _groceryItems.isEmpty
-          ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.add_shopping_cart_outlined,
-                      size: 100,
-                      shadows: [
-                        Shadow(
-                          blurRadius: 10.0,
-                          color: Colors.black,
-                          offset: Offset(5.0, 5.0),
-                        ),
-                      ],
-                    ),
-                    color: Theme.of(context).colorScheme.onPrimaryContainer,
-                    onPressed: _addItem,
+    Widget content = _groceryItems.isEmpty
+        ? Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                IconButton(
+                  icon: const Icon(
+                    Icons.add_shopping_cart_outlined,
+                    size: 100,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 10.0,
+                        color: Colors.black,
+                        offset: Offset(5.0, 5.0),
+                      ),
+                    ],
                   ),
-                  Text(
-                    'No groceries yet!',
-                    style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                  ),
-                  const SizedBox(height: 150),
-                ],
-              ),
-            )
-          : ListView.builder(
-              itemCount: _groceryItems.length,
-              itemBuilder: (ctx, index) => GroceryItemWidget(
-                  item: _groceryItems[index], onDismissed: _removeItem),
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  onPressed: _addItem,
+                ),
+                Text(
+                  'No groceries yet!',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        color: Theme.of(context).colorScheme.secondary,
+                      ),
+                ),
+                const SizedBox(height: 150),
+              ],
             ),
-    );
+          )
+        : ListView.builder(
+            itemCount: _groceryItems.length,
+            itemBuilder: (ctx, index) => GroceryItemWidget(
+                item: _groceryItems[index], onDismissed: _removeItem),
+          );
+
+    return Scaffold(
+        appBar: AppBar(
+          title: Text(
+            'Your Groceries',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.add),
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+              iconSize: 30,
+              onPressed: _addItem,
+            ),
+          ],
+        ),
+        body: content);
   }
 }
