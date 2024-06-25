@@ -50,6 +50,18 @@ class _NewItemScreenState extends State<NewItemScreen> {
     }
   }
 
+  String? _validateQuantity(String? value) {
+    if (value == null ||
+        value.isEmpty ||
+        value.trim().isEmpty ||
+        int.tryParse(value) == null ||
+        int.tryParse(value)! <= 0) {
+      return 'Invalid quantity.';
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,6 +82,11 @@ class _NewItemScreenState extends State<NewItemScreen> {
                     controller: _nameController,
                     maxLength: 50,
                     decoration: const InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(10),
+                        ),
+                      ),
                       label: Text('Name'),
                     ),
                     validator: (value) {
@@ -85,34 +102,43 @@ class _NewItemScreenState extends State<NewItemScreen> {
                       _enteredName = value!;
                     },
                   ),
+                  const SizedBox(height: 10),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Expanded(
                         child: TextFormField(
                           decoration: const InputDecoration(
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            helperText: ' ',
                             label: Text('Quantity'),
                           ),
                           keyboardType: TextInputType.number,
                           initialValue: '1',
-                          validator: (value) {
-                            if (value == null ||
-                                value.isEmpty ||
-                                value.trim().isEmpty ||
-                                int.tryParse(value) == null ||
-                                int.tryParse(value)! <= 0) {
-                              return 'Invalid quantity.';
-                            }
-                            return null;
-                          },
+                          validator: _validateQuantity,
                           onSaved: (value) {
                             _enteredQuantity = int.parse(value!);
                           },
                         ),
                       ),
                       const SizedBox(width: 10),
-                      Expanded(
+                      SizedBox(
+                        width: 180,
                         child: DropdownButtonFormField(
+                          decoration: const InputDecoration(
+                            errorStyle: TextStyle(height: 0),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              ),
+                            ),
+                            helperText: ' ',
+                            label: Text('Category'),
+                          ),
                           value: _selectedCategory,
                           items: [
                             for (final category in categories.entries)
@@ -125,8 +151,11 @@ class _NewItemScreenState extends State<NewItemScreen> {
                                       height: 16,
                                       color: category.value.color,
                                     ),
-                                    const SizedBox(width: 8),
-                                    Text(category.value.title),
+                                    const SizedBox(width: 20),
+                                    Text(category.value.title,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .labelLarge),
                                   ],
                                 ),
                               )
@@ -151,8 +180,8 @@ class _NewItemScreenState extends State<NewItemScreen> {
                         },
                       ),
                       ElevatedButton(
-                        child: const Text('Add'),
                         onPressed: _saveItem,
+                        child: const Text('Add'),
                       ),
                     ],
                   )
