@@ -68,17 +68,10 @@ class _NewItemScreenState extends State<NewItemScreen> {
         return;
       }
       Navigator.of(context).pop(GroceryItem(
-              id: resData['name'],
-              name: _enteredName,
-              quantity: _enteredQuantity,
-              category: _selectedCategory)
-          /* 
-        GroceryItem(
-            id: DateTime.now().toString(),
-            name: _enteredName,
-            quantity: _enteredQuantity,
-            category: _selectedCategory), */
-          );
+          id: resData['name'],
+          name: _enteredName,
+          quantity: _enteredQuantity,
+          category: _selectedCategory));
     }
   }
 
@@ -161,6 +154,8 @@ class _NewItemScreenState extends State<NewItemScreen> {
                       SizedBox(
                         width: 180,
                         child: DropdownButtonFormField(
+                          dropdownColor:
+                              Theme.of(context).colorScheme.onInverseSurface,
                           decoration: const InputDecoration(
                             errorStyle: TextStyle(height: 0),
                             border: OutlineInputBorder(
