@@ -10,7 +10,8 @@ enum Categories {
   spices,
   convenience,
   hygiene,
-  other
+  other,
+  drink
 }
 
 class Category {

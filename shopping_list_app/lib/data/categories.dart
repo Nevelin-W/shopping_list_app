@@ -43,4 +43,8 @@ const categories = {
     'Other',
     Color.fromARGB(255, 0, 225, 255),
   ),
+  Categories.drink: Category(
+    'Drink',
+    Color.fromARGB(255, 0, 0, 0),
+  ),
 };
