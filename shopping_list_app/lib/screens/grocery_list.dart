@@ -31,42 +31,49 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
   void _loadItems() async {
     final url = Uri.https(
         'flutter-prep-442c7-default-rtdb.firebaseio.com', 'shopping-list.json');
-    final response = await http.get(url);
-    if (response.statusCode >= 400) {
-      setState(() {
-        _error =
-            'Failed to fetch data. Please try again later. ErrorCode:${response.statusCode}';
-      });
-      return;
-    }
 
-    if (response.body == 'null') {
+    try {
+      final response = await http.get(url);
+      if (response.statusCode >= 400) {
+        setState(() {
+          _error =
+              'Failed to fetch data. Please try again later. ErrorCode:${response.statusCode}';
+        });
+        return;
+      }
+
+      if (response.body == 'null') {
+        setState(() {
+          _isLoading = false;
+        });
+        return;
+      }
+
+      final Map<String, dynamic> listData = json.decode(response.body);
+      final List<GroceryItem> loadedItems = [];
+      for (final item in listData.entries) {
+        final category = categories.entries
+            .firstWhere(
+                (catItem) => catItem.value.title == item.value['category'])
+            .value;
+        loadedItems.add(
+          GroceryItem(
+            id: item.key,
+            name: item.value['name'],
+            quantity: item.value['quantity'],
+            category: category,
+          ),
+        );
+      }
       setState(() {
+        _groceryItems = loadedItems;
         _isLoading = false;
       });
-      return;
+    } catch (error) {
+      setState(() {
+        _error = 'Something went wrong. Please try again later.';
+      });
     }
-
-    final Map<String, dynamic> listData = json.decode(response.body);
-    final List<GroceryItem> loadedItems = [];
-    for (final item in listData.entries) {
-      final category = categories.entries
-          .firstWhere(
-              (catItem) => catItem.value.title == item.value['category'])
-          .value;
-      loadedItems.add(
-        GroceryItem(
-          id: item.key,
-          name: item.value['name'],
-          quantity: item.value['quantity'],
-          category: category,
-        ),
-      );
-    }
-    setState(() {
-      _groceryItems = loadedItems;
-      _isLoading = false;
-    });
   }
 
   void _addItem() async {
@@ -162,7 +169,7 @@ class _GroceryListScreenState extends State<GroceryListScreen> {
               children: [
                 IconButton(
                   icon: const Icon(
-                    Icons.add_shopping_cart_outlined,
+                    Icons.add_shopping_cart_sharp,
                     size: 100,
                     shadows: [
                       Shadow(
